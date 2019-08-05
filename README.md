@@ -1,6 +1,6 @@
 ## Get started
 ```
-git clone https://doanbaanh@bitbucket.org/doanbaanh/goip-sms-server.git
+git clone https://github.com/doanbaanh/goip-sms-server.git
 cd goip-sms-server
 cp .env.example .env
 make build
