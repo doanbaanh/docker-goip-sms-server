@@ -2,7 +2,6 @@
 ```
 git clone https://github.com/doanbaanh/goip-sms-server.git
 cd goip-sms-server
-cp .env.example .env
 make build
 make up
 
