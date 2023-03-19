@@ -5,8 +5,6 @@ cd goip-sms-server
 make build
 make up
 
-# And go to web interface
 # http://<your_ip_address>:44444/goip  
-# Login: root  
-# Password: root
+# Default login/password: root/root
 ```

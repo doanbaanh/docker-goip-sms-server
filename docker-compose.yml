@@ -1,24 +1,34 @@
-version: "2.4"
+version: "3.9"
 
-services:
-  
-  app:
-    build: ./docker/app
-    container_name: app
-    restart: always
-    ports:
-      - 44444:44444
-      - 44444:44444/udp
-
-  mysql:
-    build: ./docker/mysql
-    container_name: mysql
-    restart: always
-    volumes:
-      - mysql-data:/var/lib/mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: mysql
-    command: mysqld --sql_mode=""
+x-logging: &default-logging
+  driver: "json-file"
+  options:
+    max-size: "12m"
+    max-file: "5"
 
 volumes:
   mysql-data:
+
+services:
+  goip-sms-server:
+    build: "."
+    container_name: "goip-sms-server"
+    ports:
+      - "44444:80"
+      - "44444:44444/udp"
+    restart: "unless-stopped"
+    logging: *default-logging
+    depends_on:
+      - "goip-sms-server-db"
+
+  goip-sms-server-db:
+    image: "mysql:5.7"
+    container_name: "goip-sms-server-db"
+    volumes:
+      - "./goipinit.sql:/docker-entrypoint-initdb.d/goipinit.sql:ro"
+      - "mysql-data:/var/lib/mysql"
+    environment:
+      MYSQL_ROOT_PASSWORD: "12345"
+    command: mysqld --sql_mode=""
+    restart: "unless-stopped"
+    logging: *default-logging
