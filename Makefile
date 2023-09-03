@@ -13,34 +13,17 @@ build: ## Build project
 	@docker compose build
 
 up: ## Run project
-ifneq (,${ARGS})
-	@docker compose up -d ${ARGS}
-else
 	@docker compose up -d
-endif
 
 down: ## Stop project
-ifneq (,${ARGS})
-	@docker compose stop ${ARGS}
-	@docker compose rm ${ARGS}
-else
 	@docker compose down
-endif
 
 restart: ## Restart project
-ifneq (,${ARGS})
-	@docker compose restart ${ARGS}
-else
 	@make down
 	@make up
-endif
 
-logs:  ## Container logs
-ifneq (,${ARGS})
-	@docker compose logs --tail 100 -f ${ARGS}
-endif
+logs: ## Container logs
+	@docker compose logs --tail 100 -f goip-sms-server
 
-sh:  ## Attach to container
-ifneq (,${ARGS})
-	@docker compose exec ${ARGS} sh
-endif
+bash: ## Attach to container
+	@docker compose exec goip-sms-server bash

@@ -1,34 +1,25 @@
 version: "3.9"
 
 x-logging: &default-logging
-  driver: "json-file"
+  driver: json-file
   options:
-    max-size: "12m"
-    max-file: "5"
+    max-size: 12m
+    max-file: 5
 
 volumes:
-  mysql-data:
+  goip-sms-server-data:
 
 services:
   goip-sms-server:
-    build: "."
-    container_name: "goip-sms-server"
+    image: doanbaanh/goip-sms-server:latest
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile
+    container_name: goip-sms-server
     ports:
       - "44444:80"
       - "44444:44444/udp"
-    restart: "unless-stopped"
-    logging: *default-logging
-    depends_on:
-      - "goip-sms-server-db"
-
-  goip-sms-server-db:
-    image: "mysql:5.7"
-    container_name: "goip-sms-server-db"
     volumes:
-      - "./goipinit.sql:/docker-entrypoint-initdb.d/goipinit.sql:ro"
-      - "mysql-data:/var/lib/mysql"
-    environment:
-      MYSQL_ROOT_PASSWORD: "12345"
-    command: mysqld --sql_mode=""
-    restart: "unless-stopped"
+      - goip-sms-server-data:/var/lib/mysql
+    restart: unless-stopped
     logging: *default-logging
