@@ -69,6 +69,3 @@ if [[ ! -d $VOLUME_HOME/mysql/goip ]]; then
 fi
 
 exec supervisord -n
-
-# run goip cron
-#/usr/local/goip/goipcron_x64 /usr/local/goip/inc/config.inc.php
